@@ -27,12 +27,14 @@ const listOfAwesome = [
 export default function Programmers() {
   // We'll have to use the state hook twice, as we need two slices of state.
   // The programmers on the one hand, and the id of the featured programmer on the other.
-  const [programmers] = useState(listOfAwesome)
-  const [featuredProgrammerId] = useState("")
+  const [programmers, setProgrammers] = useState(listOfAwesome)
+  const [featuredProgrammerId, setFeaturedProgrammerId] = useState("")
+  
 
   const getNameOfFeatured = () => {
+    const chosenName = programmers[featuredProgrammerId-1].name   
    
-    return programmers.featuredProgrammerId
+    return chosenName
 
     // This is not an event handler but a helper function. See its usage below.
     // It's going to need information from both slices of state!
@@ -56,7 +58,7 @@ export default function Programmers() {
           we could never add or edit programmers in the future. The list would be a static thing. ;)" */
           programmers.map(dev =>
             <div key={dev.id}>
-              {dev.name} <button onClick={() => {featuredProgrammerId /* set the featured id passing dev.id */ }}>Feature</button>
+              {dev.name} <button onClick={() => {setFeaturedProgrammerId(dev.id)/* set the featured id passing dev.id */ }}>Feature</button>
             </div>
           )
         }
@@ -64,8 +66,8 @@ export default function Programmers() {
       {
         // Ternaries are fantastic to render "one thing or the other" depending on the "truthiness" of something.
         // Pseudo-code: if the currently featured id is truthy render div 1, otherwise render div 2. Fix!
-        false
-          ? <div style={style}>🎉 Let&apos;s celebrate {getNameOfFeatured()}! 🥳</div>
+        
+         (featuredProgrammerId !== "") ? <div style={style}>🎉 Let&apos;s celebrate {getNameOfFeatured()}! 🥳</div>
           : <div style={style}>Pick an awesome programmer</div>
       }
     </div>
